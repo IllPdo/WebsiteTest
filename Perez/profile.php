@@ -55,6 +55,16 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     <form method="POST">
         <label for="address">Address:</label>
         <input type="text" name="address" value="">
+        <br><br>
+        <label for="Phone number">Phone Number:</label>
+        <input type="Num" name="CPnum" value="">
+        <br><br>
+        <label for="Gender">Choose a Gender</label>
+        <select name="Gender" id="Gender">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Undisclosed">Undisclosed</option>
+        </select>
         <input type="hidden" name="id" value="<?php echo $user['id']; ?>">
         <br><br>
         <button type="submit">Update</button>
