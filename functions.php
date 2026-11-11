@@ -1,16 +1,26 @@
 <?php
-include "db.php";
-
-function checkUsername($connection, $user)
+require_once "db.php";
+ 
+function getUserByUsername(PDO $conn, string $username)
 {
-    $check = $connection->query(
-        "SELECT * FROM users WHERE username = '$user'"
-    );
-
-    return $check->num_rows > 0;
+    $stmt = $conn->prepare("SELECT id, username, password FROM public.users WHERE username = :u");
+    $stmt->execute([":u" => $username]);
+    return $stmt->fetch(); // row array or false
 }
-
-function myQuery($connection, $query)
+ 
+function checkUsername(PDO $conn, string $username): bool
 {
-    return $connection->query($query);
+    return getUserByUsername($conn, $username) !== false;
 }
+ 
+function createUser(PDO $conn, string $username, string $hashedPassword): void
+{
+    $stmt = $conn->prepare("INSERT INTO public.users (username, password) VALUES (:u, :p)");
+    $stmt->execute([":u" => $username, ":p" => $hashedPassword]);
+}
+ 
+function e(string $s): string
+{
+    return htmlspecialchars($s, ENT_QUOTES, "UTF-8");
+}
+ 
